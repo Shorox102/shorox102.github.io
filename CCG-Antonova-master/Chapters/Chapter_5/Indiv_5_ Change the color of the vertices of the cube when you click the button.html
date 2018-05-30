@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Computer graphics and geometry" </title>
+
+    <!-- Bootstrap CSS -->
+    <link href="../../css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-inverse">.
+    <a class="navbar-brand" href="#"><strong><em>Компьютерная геометрия и графика</em></strong></a>
+</nav>
+
+<div class="container">
+
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+            <li><a href ="../../index.html" class="btn btn-info ">Главная страница</a></li>
+            <li>
+                <a  href="#" class="btn btn-info " data-toggle="dropdown"> Задания из текущей главы <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="../Chapter_5/Zadaniye_10_Creating%20a%203D%20cube%20without%20using%20matrices.html"> <em>Задание №10</em></a></li>
+                    <li><a href="../Chapter_5/Zadaniye_11_Creating%20a%203D%20cube%20using%20matrices.html"> <em>Задание №11</em></a></li>
+                    <li><a href="../Chapter_5/Zadaniye_12_Multicolored%20cube.html"> <em>Задание №12</em></a></li>
+                </ul>
+            </li>
+            <li class="divider"></li>
+
+        </ul>
+    </div>
+
+    <div class="page-header">
+        <h1>Глава №5, Индивидуальное задание №5. Изменение цвета вершин куба при нажатии на кнопку.</h1>
+    </div>
+
+    </br>
+
+<canvas id="canvas3D" width="400" height="300">Ваш браузер не поддерживает элемент canvas</canvas>
+</div>
+<script  type="text/javascript" src="../../js/gl-matrix-min.js"></script>
+<div>
+    <button id="changeColor" >
+        Изменить цвет каждой вершины куба
+    </button>
+</div>
+
+<script id="shader-fs" type="x-shader/x-fragment">
+varying highp vec4 vColor;
+  void main(void) {
+    gl_FragColor = vColor;
+  }
+</script>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+attribute vec3 aVertexPosition;
+attribute vec3 aVertexColor;
+varying highp vec4 vColor;
+uniform mat4 uMVMatrix;
+uniform mat4 uPMatrix;
+  void main(void) {
+     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+      vColor = vec4(aVertexColor, 1.0);
+  }
+</script>
+<script src="../../js/Chapter_5/Indiv_zad_5.js"></script>
+<script src="../../js/gl-matrix.js"></script>
+<script src="../../js/jquery-3.2.1.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+</body>
+</html>
