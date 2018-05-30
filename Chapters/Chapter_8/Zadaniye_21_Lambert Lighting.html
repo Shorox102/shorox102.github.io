@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title> Computer graphics and geometry" </title>
+
+    <!-- Bootstrap CSS -->
+    <link href="../../css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-inverse">.
+    <a class="navbar-brand" href="#"><strong><em>Компьютерная геометрия и графика</em></strong></a>
+</nav>
+
+<div class="container">
+
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+            <li><a href ="../../index.html" class="btn btn-info ">Главная страница</a></li>
+            <li><a href="../Chapter_8/Indiv_8_Texturing%20a%20rotating%203D%20cube%20with%20lighting.html" class="btn btn-info ">Индивидуальное задание к главе №8</a></li>
+            <li>
+                <a  href="#" class="btn btn-info " data-toggle="dropdown"> Задания из текущей главы <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a href="../Chapter_8/Zadaniye_19_Phong%20reflection%20model.html"> <em>Задание №19</em></a></li>
+                    <li><a href="../Chapter_8/Zadaniye_20_Use%20of%20materials%20in%20reflection.html"> <em>Задание №20</em></a></li>
+                </ul>
+            </li>
+            <li class="divider"></li>
+
+        </ul>
+    </div>
+
+    <div class="page-header">
+        <h1>Глава №8, Задание №21. Освещение Ламберта.</h1>
+    </div>
+
+    </br>
+
+<canvas id="canvas3D" width="400" height="300">Ваш браузер не поддерживает элемент canvas</canvas>
+</div>
+<script  type="text/javascript" src="../../js/gl-matrix-min.js"></script>
+
+<script id="shader-vs" type="x-shader/x-vertex">
+  attribute vec3 aVertexPosition;
+  attribute vec3 aVertexNormal;
+
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
+  uniform mat3 uNMatrix;
+
+  uniform vec3 uLightPosition;
+  uniform vec3 uDiffuseLightColor;
+
+  uniform vec3 uDiffuseMaterialColor;
+
+  varying vec3 vLightWeighting;
+
+
+  void main() {
+    // установка позиции наблюдателя сцены
+    vec4 vertexPositionEye4 = uMVMatrix * vec4(aVertexPosition, 1.0);
+    vec3 vertexPositionEye3 = vertexPositionEye4.xyz / vertexPositionEye4.w;
+
+    // получаем вектор направления света
+    vec3 lightDirection = normalize(uLightPosition - vertexPositionEye3);
+    // получаем нормаль
+    vec3 normal = normalize(uNMatrix * aVertexNormal);
+
+     // получаем скалярное произведение векторов нормали и направления света
+    float lambertTerm = max(dot(normal, lightDirection), 0.0);
+
+    // отраженный свет равен диффузному отражению света
+   vLightWeighting = uDiffuseMaterialColor * uDiffuseLightColor * lambertTerm;
+
+     gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+  }
+</script>
+
+<script id="shader-fs" type="x-shader/x-fragment">
+  precision mediump float;
+
+  varying vec3 vLightWeighting;
+
+  void main() {
+    gl_FragColor = vec4(vLightWeighting.rgb, 1);
+  }
+</script>
+
+<script src="../../js/Chapter_8/Chap_8_Zad_21.js"></script>
+<script src="../../js/gl-matrix.js"></script>
+<script src="../../js/jquery-3.2.1.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+</body>
+</html>
